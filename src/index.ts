@@ -1,13 +1,22 @@
 import { registerPlugin } from '@capacitor/core';
 
-import type { CapacitorBgTasksPlugin } from './definitions';
+import type { CapacitorBgTasksPlugin, TaskConfig } from './definitions';
 
-const CapacitorBgTasks = registerPlugin<CapacitorBgTasksPlugin>(
+const nativePlugin = registerPlugin<CapacitorBgTasksPlugin>(
   'CapacitorBgTasks',
-  {
-    web: () => import('./web').then(m => new m.CapacitorBgTasksWeb()),
-  },
+  {},
 );
 
+export class CapacitorBgTasks {
+  static setTask(config: TaskConfig): Promise<void> {
+    return new Promise((resolve, reject) => {
+      return nativePlugin.setTask(config).then(() => {
+        resolve();
+      }).catch((error) => {
+        reject(error.message);
+      });
+    });
+  }
+}
+
 export * from './definitions';
-export { CapacitorBgTasks };

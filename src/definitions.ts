@@ -1,3 +1,7 @@
 export interface CapacitorBgTasksPlugin {
-  echo(options: { value: string }): Promise<{ value: string }>;
+  setTask(options: { [key: string]: any }): Promise<{ value: string }>;
+}
+
+export interface TaskConfig {
+  taskId: string;
 }
